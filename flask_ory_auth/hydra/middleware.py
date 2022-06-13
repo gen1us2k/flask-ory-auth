@@ -20,16 +20,17 @@ class IntrospectionMiddleware:
     def get_access_token(self, request):
         header = request.headers.get("Authorization")
         if not header:
-            return
-        parts = header.split()
-        if len(parts) != 2:
             access_token = request.args.get("access_token", "")
             if access_token:
                 return access_token
+
             access_token = request.form.get("access_token", "")
             if access_token:
                 return access_token
 
+            return None
+
+        parts = header.split()
         return parts[1]
 
     def generate_state(self):
