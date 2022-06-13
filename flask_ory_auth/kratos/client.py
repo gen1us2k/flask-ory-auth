@@ -1,7 +1,6 @@
 import json
 
 import requests
-from app.models import User
 from flask import abort
 from flask import request
 
@@ -28,19 +27,6 @@ class Authentication:
 
     def set_user_to_session(self, session) -> None:
         self.set_email_to_session(session)
-        email = session.get("email", None)
-        if not email:
-            abort(403)
-
-        user = User.query.filter(User.email == email).first()
-        if not user:
-            user = User(
-                email=session.get('email'),
-                kratos_id=session.get('kratos_id'),
-            )
-            user.save()
-
-        session["user_id"] = user.id
 
     def get_current_user(self, session):
         user_id = session.get("user_id", None)
