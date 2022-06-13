@@ -4,7 +4,7 @@ import pytest
 from flask import Flask
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def app():
     """Create application for the tests."""
     _app = Flask(__name__)
@@ -17,6 +17,6 @@ def app():
     ctx.pop()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def client(app):
     return app.test_client()
