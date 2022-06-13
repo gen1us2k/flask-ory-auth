@@ -3,7 +3,6 @@ from ory_hydra_client.api import admin_api
 from ory_hydra_client.model.accept_consent_request import AcceptConsentRequest
 from ory_hydra_client.model.accept_login_request import AcceptLoginRequest
 from ory_hydra_client.model.consent_request_session import ConsentRequestSession
-from ory_hydra_client.model.string_slice_pipe_delimiter import StringSlicePipeDelimiter
 
 
 class HydraClient:
@@ -49,7 +48,8 @@ class HydraClient:
             return api_instance.accept_consent_request(
                 consent_challenge,
                 accept_consent_request=AcceptConsentRequest(
-                    grant_scope=StringSlicePipeDelimiter(scope),
+                    # FIXME: Debug it and fix passing scope
+                    # grant_scope=StringSlicePipeDelimiter(scope),
                     remember=True,
                     remember_for=3600,
                     session=ConsentRequestSession(id_token={"id": identity_id}),
