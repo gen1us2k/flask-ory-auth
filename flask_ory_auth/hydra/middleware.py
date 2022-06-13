@@ -4,18 +4,14 @@ import string
 import requests
 from flask import Request
 from flask import Response
-from oauthlib.oauth2 import WebApplicationClient
 
 
 class IntrospectionMiddleware:
-    def __init__(self, app, login_url, scope, admin_url, discovery_url, client_id):
+    def __init__(self, app, scope=None, admin_url=None, login_url=None):
         self.app = app
         self.login_url = login_url
         self.scope = scope
         self.admin_url = admin_url
-        self.discovery_url = discovery_url
-        self.client_id = client_id
-        self.oauth2client = WebApplicationClient(self.client_id)
 
     def get_access_token(self, request):
         header = request.headers.get("Authorization")
@@ -45,17 +41,9 @@ class IntrospectionMiddleware:
             return self.app(environ, start_response)
 
         if not token:
-            cfg = requests.get(self.discovery_url).json()
-
-            uri = self.oauth2client.prepare_request_uri(
-                cfg['authorization_endpoint'],
-                redirect_uri='http://127.0.0.1:5000/complete',
-                scope=self.scope,
-                state=self.generate_state(),
-            )
             response = Response()
             response.status_code = 302
-            response.headers = [("Location", uri)]
+            response.headers = [("Location", self.login_url)]
             return response(environ, start_response)
 
         resp = requests.post(
