@@ -8,6 +8,7 @@ from flask import Flask
 def app():
     """Create application for the tests."""
     _app = Flask(__name__)
+    _app.config['SECRET_KEY'] = 'something_insecure'
 
     _app.logger.setLevel(logging.CRITICAL)
     ctx = _app.test_request_context()
