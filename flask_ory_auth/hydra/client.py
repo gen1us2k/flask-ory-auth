@@ -48,8 +48,7 @@ class HydraClient:
             return api_instance.accept_consent_request(
                 consent_challenge,
                 accept_consent_request=AcceptConsentRequest(
-                    # FIXME: Debug it and fix passing scope
-                    # grant_scope=StringSlicePipeDelimiter(scope),
+                    grant_scope=scope,
                     remember=True,
                     remember_for=3600,
                     session=ConsentRequestSession(id_token={"id": identity_id}),

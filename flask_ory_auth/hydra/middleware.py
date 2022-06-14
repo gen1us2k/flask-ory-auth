@@ -7,11 +7,12 @@ from flask import Response
 
 
 class IntrospectionMiddleware:
-    def __init__(self, app, scope=None, admin_url=None, login_url=None):
+    def __init__(self, app, scope=None, admin_url=None, login_url=None, callback_url=None):
         self.app = app
         self.login_url = login_url
         self.scope = scope
         self.admin_url = admin_url
+        self.callback_url = callback_url
 
     def get_access_token(self, request):
         header = request.headers.get("Authorization")
@@ -37,7 +38,7 @@ class IntrospectionMiddleware:
         request = Request(environ)
         token = self.get_access_token(request)
 
-        if request.path.startswith("/complete"):
+        if request.base_url in [self.login_url, self.callback_url]:
             return self.app(environ, start_response)
 
         if not token:
