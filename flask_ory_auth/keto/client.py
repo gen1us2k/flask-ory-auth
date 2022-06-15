@@ -11,7 +11,7 @@ class AccessControl:
 
     def check_permissions(self, namespace, obj, relation, subject_id) -> bool:
         r = requests.get(
-            f"{self.keto_read_url}/relation-tuples/check",
+            f"{self.keto_read_url}/check",
             data={
                 "object": obj,
                 "relation": relation,

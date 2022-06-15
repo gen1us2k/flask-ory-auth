@@ -20,10 +20,10 @@ class Authentication:
         )
         if resp.status_code == 200:
             data = resp.json()
-            traits = data.get("identity", {}).get("traits", {})
-            session["email"] = traits.get("email")
-            session["kratos_id"] = data.get("identity", {}).get("id")
-            session["traits"] = json.dumps(traits)
+            identity = data.get("identity", {})
+            session["email"] = identity.get("traits", {}).get("email")
+            session["kratos_id"] = identity.get("id")
+            session["traits"] = json.dumps(identity.get("traits", {}))
 
     def set_user_to_session(self, session) -> None:
         self.set_email_to_session(session)
