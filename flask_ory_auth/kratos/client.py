@@ -22,7 +22,7 @@ class Authentication:
             data = resp.json()
             traits = data.get("identity", {}).get("traits", {})
             session["email"] = traits.get("email")
-            session["kratos_id"] = traits.get("id")
+            session["kratos_id"] = data.get("identity", {}).get("id")
             session["traits"] = json.dumps(traits)
 
     def set_user_to_session(self, session) -> None:
