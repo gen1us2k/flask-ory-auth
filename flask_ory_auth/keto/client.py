@@ -10,9 +10,9 @@ class AccessControl:
         return self.check_permissions(namespace, obj, relation, subject_id)
 
     def check_permissions(self, namespace, obj, relation, subject_id) -> bool:
-        r = requests.get(
+        r = requests.post(
             f"{self.keto_read_url}/check",
-            data={
+            json={
                 "object": obj,
                 "relation": relation,
                 "subject_id": subject_id,
